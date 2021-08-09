@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_ui/screen/login_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -54,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget buildTextField(String name) => Padding(
         padding: const EdgeInsets.all(8),
         child: Container(
-          //height: 64,
           child: TextField(
             decoration: InputDecoration(
               hintText: name,

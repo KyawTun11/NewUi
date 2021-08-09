@@ -31,6 +31,7 @@ class _SingUpState extends State<SingUp> {
               buildImage(),
               buildText('E_mail'),
               buildPasswordButton('Password'),
+              buildLogin(),
               buildForgot(),
               buildOrText('_______________Or_______________'),
               buildFaceUpButton(),
@@ -52,7 +53,7 @@ class _SingUpState extends State<SingUp> {
   Widget buildText(String hintText) => Padding(
         padding: const EdgeInsets.all(8),
         child: Container(
-          child: TextField(
+          child: TextFormField(
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: TextStyle(
@@ -86,6 +87,21 @@ class _SingUpState extends State<SingUp> {
               border: InputBorder.none,
             ),
           ),
+        ),
+      );
+  Widget buildLogin() => Padding(
+        padding: const EdgeInsets.all(4),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+            minimumSize: Size(double.infinity, 46),
+            primary: Colors.blue,
+            onPrimary: Colors.white,
+          ),
+          child: Text('Login'),
+          onPressed: () {},
         ),
       );
   Widget buildForgot() => Padding(
