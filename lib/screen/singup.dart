@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_ui/screen/login_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -8,6 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,10 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
             children: <Widget>[
               buildImage(),
-              buildTextField('Full Name'),
-              buildText('E_mail'),
-              buildPasswordButton('Password'),
-              buildSingUp(),
+              buildFormtextfild(),
               buildCanterText(),
               buildFaceButton(),
               buildGoogleButton(),
@@ -41,6 +40,107 @@ class _LoginScreenState extends State<LoginScreen> {
           )),
         ),
       );
+  Widget buildFormtextfild() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'User Name',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+                fillColor: Color(0xFFDCE3EC),
+                filled: true,
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                  return 'Please enter User Name';
+                }
+                return null;
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'E-mail',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+                fillColor: Color(0xFFDCE3EC),
+                filled: true,
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                        .hasMatch(value)) {
+                  return 'Invalid E-mail';
+                }
+                return null;
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: TextFormField(
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+                suffixIcon: Icon(
+                  Icons.visibility,
+                  size: 35,
+                ),
+                fillColor: Color(0xFFDCE3EC),
+                filled: true,
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                minimumSize: Size(double.infinity, 46),
+                primary: Colors.blue,
+                onPrimary: Colors.white,
+              ),
+              child: Text('Sing Up'),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget buildImage() => Padding(
         padding: const EdgeInsets.fromLTRB(0, 64, 0, 32),
@@ -49,78 +149,6 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 128,
             image: AssetImage('assets/images/flutter.png'),
           ),
-        ),
-      );
-  Widget buildTextField(String name) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Container(
-          //height: 64,
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: name,
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-              fillColor: Color(0xFFDCE3EC),
-              filled: true,
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      );
-  Widget buildText(String hintText) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Container(
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-              fillColor: Color(0xFFDCE3EC),
-              filled: true,
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      );
-  Widget buildPasswordButton(String password) => Padding(
-        padding: const EdgeInsets.all(4),
-        child: Container(
-          child: TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: password,
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-              suffixIcon: Icon(
-                Icons.visibility,
-                size: 35,
-              ),
-              fillColor: Color(0xFFDCE3EC),
-              filled: true,
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      );
-  Widget buildSingUp() => Padding(
-        padding: const EdgeInsets.all(4),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            minimumSize: Size(double.infinity, 46),
-            primary: Colors.blue,
-            onPrimary: Colors.white,
-          ),
-          child: Text('Sign Up'),
-          onPressed: () {},
         ),
       );
   Widget buildCanterText() => Padding(
