@@ -12,6 +12,7 @@ class SingUp extends StatefulWidget {
 }
 
 class _SingUpState extends State<SingUp> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +30,7 @@ class _SingUpState extends State<SingUp> {
               child: Column(
             children: <Widget>[
               buildImage(),
-              buildText('E_mail'),
-              buildPasswordButton('Password'),
-              buildLogin(),
+              buildFormtextfild(),
               buildForgot(),
               buildOrText('_______________Or_______________'),
               buildFaceUpButton(),
@@ -40,6 +39,85 @@ class _SingUpState extends State<SingUp> {
           )),
         ),
       );
+  Widget buildFormtextfild() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'E-mail',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+                fillColor: Color(0xFFDCE3EC),
+                filled: true,
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                        .hasMatch(value)) {
+                  return 'Invalid E-mail';
+                }
+                return null;
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: TextFormField(
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+                suffixIcon: Icon(
+                  Icons.visibility,
+                  size: 35,
+                ),
+                fillColor: Color(0xFFDCE3EC),
+                filled: true,
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                minimumSize: Size(double.infinity, 46),
+                primary: Colors.blue,
+                onPrimary: Colors.white,
+              ),
+              child: Text('Login'),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget buildImage() => Padding(
         padding: const EdgeInsets.fromLTRB(0, 64, 0, 32),
@@ -48,60 +126,6 @@ class _SingUpState extends State<SingUp> {
             width: double.infinity,
             image: AssetImage('assets/images/flutter.png'),
           ),
-        ),
-      );
-  Widget buildText(String hintText) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Container(
-          child: TextFormField(
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-              fillColor: Color(0xFFDCE3EC),
-              filled: true,
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      );
-  Widget buildPasswordButton(String password) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Container(
-          child: TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: password,
-              hintStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-              suffixIcon: Icon(
-                Icons.visibility,
-                size: 35,
-              ),
-              fillColor: Color(0xFFDCE3EC),
-              filled: true,
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      );
-  Widget buildLogin() => Padding(
-        padding: const EdgeInsets.all(4),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            minimumSize: Size(double.infinity, 46),
-            primary: Colors.blue,
-            onPrimary: Colors.white,
-          ),
-          child: Text('Login'),
-          onPressed: () {},
         ),
       );
   Widget buildForgot() => Padding(
